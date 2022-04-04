@@ -14,7 +14,7 @@ class SearchSimilarMoviesDatasource implements ISearchSimilarMoviesDatasource {
   @override
   Future<List<MovieModel>> call(int movieId) async {
     String url = TheMovieDbEndpoint.url;
-    url += "movie/$movieId/similar?api_key=$API_KEY&language=en-US";
+    url += "movie/$movieId/similar?api_key=$API_KEY&language=$API_LANG";
 
     final result = await client.get(url);
 

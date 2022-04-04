@@ -14,7 +14,7 @@ class SearchMovieDatasource implements ISearchMovieDatasource {
   @override
   Future<MovieModel> call(int movieId) async {
     String url = TheMovieDbEndpoint.url;
-    url += "movie/$movieId?api_key=$API_KEY&language=en-US";
+    url += "movie/$movieId?api_key=$API_KEY&language=$API_LANG";
 
     final result = await client.get(url);
 
