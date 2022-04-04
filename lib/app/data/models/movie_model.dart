@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:mobile2you/app/domain/entities/movie_entity.dart';
+import 'package:mobile2you/shared/constants/constants.dart';
 
 class MovieModel {
   final int id; // id
@@ -79,6 +80,15 @@ class MovieModel {
     if (map['genres'] is List) {
       for (var element in (map['genres'] as List)) {
         genres.add(element['name']);
+      }
+    } else if (map['genre_ids'] is List) {
+      for (var element in (map['genre_ids'] as List)) {
+        for (var genre in GENRES) {
+          if (element == genre["id"]) {
+            genres.add(genre['name']);
+            break;
+          }
+        }
       }
     }
 
