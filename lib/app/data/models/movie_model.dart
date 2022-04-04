@@ -59,7 +59,7 @@ class MovieModel {
       'backdrop_path': backdropPath,
       'adult': adult,
       'popularity': popularity,
-      'voteCount': voteCount,
+      'vote_count': voteCount,
     };
   }
 
@@ -75,15 +75,22 @@ class MovieModel {
       );
     }
 
+    List<String> genres = [];
+    if (map['genres'] is List) {
+      for (var element in (map['genres'] as List)) {
+        genres.add(element['name']);
+      }
+    }
+
     return MovieModel(
       id: map['id']?.toInt() ?? 0,
       title: map['title'] ?? '',
       releaseDate: date,
-      genres: List<String>.from(map['genres']),
+      genres: genres,
       backdropPath: map['backdrop_path'] ?? '',
       adult: map['adult'] ?? false,
       popularity: map['popularity']?.toDouble() ?? 0.0,
-      voteCount: map['voteCount']?.toInt() ?? 0,
+      voteCount: map['vote_count']?.toInt() ?? 0,
     );
   }
 
