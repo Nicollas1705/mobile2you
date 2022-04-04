@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile2you/app/data/endpoints/themoviedb_endpoint.dart';
 import 'package:mobile2you/app/domain/entities/movie_entity.dart';
 import 'package:mobile2you/shared/utils/like_count.dart';
 
@@ -14,7 +15,7 @@ class MovieCover extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
-      expandedHeight: 400,
+      expandedHeight: MediaQuery.of(context).size.height * .8,
       stretch: true,
       backgroundColor: Colors.black,
       shadowColor: Colors.amber,
@@ -64,7 +65,7 @@ class MovieCover extends StatelessWidget {
                     popularityIcon(),
                     const SizedBox(width: 8),
                     Text(
-                      "${(movie.popularity * 100).toInt()}% of Popularity",
+                      "${movie.popularity.toString().replaceFirst(".", ",")} of Popularity",
                     ),
                   ],
                 ),
@@ -85,15 +86,26 @@ class MovieCover extends StatelessWidget {
             ),
           ),
           child: Image.network(
-            // TODO
-            "https://static.vecteezy.com/packs/media/components/global/search-explore-nav/img/vectors/term-bg-1-666de2d941529c25aa511dc18d727160.jpg",
+            TheMovieDbEndpoint.urlImage + movie.cover,
             fit: BoxFit.cover,
+            loadingBuilder: (context, child, loadingProgress) {
+              if (loadingProgress == null) return child;
+              return Center(
+                child: CircularProgressIndicator(
+                  value: loadingProgress.expectedTotalBytes != null
+                      ? loadingProgress.cumulativeBytesLoaded /
+                          loadingProgress.expectedTotalBytes!
+                      : null,
+                ),
+              );
+            },
           ),
         ),
       ),
     );
   }
 
+  // This icon can be filled according to the gradientFill() method
   Widget popularityIcon() {
     const double size = 18;
     return Container(
@@ -108,7 +120,7 @@ class MovieCover extends StatelessWidget {
         gradient: LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
-          colors: gradientFill(movie.popularity),
+          colors: gradientFill(.3),
         ),
       ),
     );
