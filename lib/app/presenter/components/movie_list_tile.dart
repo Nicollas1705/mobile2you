@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile2you/app/data/endpoints/themoviedb_endpoint.dart';
 import 'package:mobile2you/app/domain/entities/movie_entity.dart';
 
 class MovieListTile extends StatelessWidget {
@@ -35,8 +36,20 @@ class MovieListTile extends StatelessWidget {
     return SizedBox(
       height: 100,
       width: 60,
-      child: Container(
-        color: Colors.amber, // TODO
+      child: Image.network(
+        TheMovieDbEndpoint.urlImage + movie.cover,
+        fit: BoxFit.cover,
+        loadingBuilder: (context, child, loadingProgress) {
+          if (loadingProgress == null) return child;
+          return Center(
+            child: CircularProgressIndicator(
+              value: loadingProgress.expectedTotalBytes != null
+                  ? loadingProgress.cumulativeBytesLoaded /
+                      loadingProgress.expectedTotalBytes!
+                  : null,
+            ),
+          );
+        },
       ),
     );
   }
