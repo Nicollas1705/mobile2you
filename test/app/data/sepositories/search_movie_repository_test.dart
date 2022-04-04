@@ -31,7 +31,7 @@ void main() {
         final result = await repository(0);
 
         expect(result, isA<MovieModel>());
-        expect(result.id == MOVIE_ID, true);
+        expect(result.id, MOVIE_ID);
       },
     );
 

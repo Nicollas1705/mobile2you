@@ -32,7 +32,7 @@ void main() {
 
         map.forEach((key, value) {
           final result = LikeCount.getText(key);
-          expect(result == value, true);
+          expect(result, value);
         });
       },
     );

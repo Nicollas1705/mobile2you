@@ -32,7 +32,7 @@ void main() {
         final result = await usecase(1);
 
         expect(result, isA<MovieEntity>());
-        expect(result.id == MOVIE_ID, true);
+        expect(result.id, MOVIE_ID);
       },
     );
 
