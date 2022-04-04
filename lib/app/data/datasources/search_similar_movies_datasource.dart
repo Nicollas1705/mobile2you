@@ -29,8 +29,8 @@ class SearchSimilarMoviesDatasource implements ISearchSimilarMoviesDatasource {
     }
 
     List<MovieModel> models = [];
-    for (var item in (json.decode(result.body) as List)) {
-      models.add(MovieModel.fromJson(item));
+    for (var item in (json.decode(result.body)["results"] as List)) {
+      models.add(MovieModel.fromMap(item));
     }
 
     return models;
