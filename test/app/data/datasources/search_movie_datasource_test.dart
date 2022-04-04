@@ -20,74 +20,76 @@ void main() {
     datasource = SearchMovieDatasource(client);
   });
 
-  test(
-    "Should return the 'MovieModel'",
-    () async {
-      when(() => client.get(any())).thenAnswer((_) async => HttpResponse(
-            statusCode: 200,
-            body: theMartianJson,
-          ));
+  group("SearchMovieDatasource |", () {
+    test(
+      "Should return the 'MovieModel'",
+      () async {
+        when(() => client.get(any())).thenAnswer((_) async => HttpResponse(
+              statusCode: 200,
+              body: theMartianJson,
+            ));
 
-      final result = await datasource(0);
+        final result = await datasource(0);
 
-      final movieModelResult = MovieModel.fromJson(theMartianJson);
-      expect(result, movieModelResult);
-    },
-  );
+        final movieModelResult = MovieModel.fromJson(theMartianJson);
+        expect(result, movieModelResult);
+      },
+    );
 
-  test(
-    "Should throw 'InternalServerError'",
-    () async {
-      when(() => client.get(any())).thenAnswer((_) async => HttpResponse(
-            statusCode: 0,
-            body: "",
-          ));
+    test(
+      "Should throw 'InternalServerError'",
+      () async {
+        when(() => client.get(any())).thenAnswer((_) async => HttpResponse(
+              statusCode: 0,
+              body: "",
+            ));
 
-      final result = datasource(0);
+        final result = datasource(0);
 
-      expect(() => result, throwsA(isA<InternalServerError>()));
-    },
-  );
+        expect(() => result, throwsA(isA<InternalServerError>()));
+      },
+    );
 
-  test(
-    "Should throw 'NotFoundError'",
-    () async {
-      when(() => client.get(any())).thenAnswer((_) async => HttpResponse(
-            statusCode: 404,
-            body: "",
-          ));
+    test(
+      "Should throw 'NotFoundError'",
+      () async {
+        when(() => client.get(any())).thenAnswer((_) async => HttpResponse(
+              statusCode: 404,
+              body: "",
+            ));
 
-      final result = datasource(0);
+        final result = datasource(0);
 
-      expect(() => result, throwsA(isA<NotFoundError>()));
-    },
-  );
+        expect(() => result, throwsA(isA<NotFoundError>()));
+      },
+    );
 
-  test(
-    "Should throw 'EmptyServerResultError'",
-    () async {
-      when(() => client.get(any())).thenAnswer((_) async => HttpResponse(
-            statusCode: 200,
-            body: "",
-          ));
+    test(
+      "Should throw 'EmptyServerResultError'",
+      () async {
+        when(() => client.get(any())).thenAnswer((_) async => HttpResponse(
+              statusCode: 200,
+              body: "",
+            ));
 
-      final result = datasource(0);
+        final result = datasource(0);
 
-      expect(() => result, throwsA(isA<EmptyServerResultError>()));
-    },
-  );
+        expect(() => result, throwsA(isA<EmptyServerResultError>()));
+      },
+    );
 
-  test(
-    "Should throw 'InvalidParamsRequestError'",
-    () async {
-      when(() => client.get(any())).thenAnswer((_) async => HttpResponse(
-            statusCode: 200,
-            body: invalidApiKeyJson,
-          ));
+    test(
+      "Should throw 'InvalidParamsRequestError'",
+      () async {
+        when(() => client.get(any())).thenAnswer((_) async => HttpResponse(
+              statusCode: 200,
+              body: invalidApiKeyJson,
+            ));
 
-      final result = datasource(0);
+        final result = datasource(0);
 
-      expect(() => result, throwsA(isA<InvalidParamsRequestError>()));
-    },
-  );
+        expect(() => result, throwsA(isA<InvalidParamsRequestError>()));
+      },
+    );
+  });
 }

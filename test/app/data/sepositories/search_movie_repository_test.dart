@@ -21,38 +21,40 @@ void main() {
     repository = SearchMovieRepository(datasource);
   });
 
-  test(
-    "Should return 'MovieModel'",
-    () async {
-      when(() => datasource(any()))
-          .thenAnswer((_) async => MovieModel.fromJson(theMartianJson));
+  group("SearchMovieRepository |", () {
+    test(
+      "Should return 'MovieModel'",
+      () async {
+        when(() => datasource(any()))
+            .thenAnswer((_) async => MovieModel.fromJson(theMartianJson));
 
-      final result = await repository(0);
+        final result = await repository(0);
 
-      expect(result, isA<MovieModel>());
-      expect(result.id == MOVIE_ID, true);
-    },
-  );
+        expect(result, isA<MovieModel>());
+        expect(result.id == MOVIE_ID, true);
+      },
+    );
 
-  test(
-    "Should throw 'DatasourceError'",
-    () async {
-      when(() => datasource(any())).thenThrow(InternalServerError());
+    test(
+      "Should throw 'DatasourceError'",
+      () async {
+        when(() => datasource(any())).thenThrow(InternalServerError());
 
-      final result = repository(0);
+        final result = repository(0);
 
-      expect(() => result, throwsA(isA<DatasourceError>()));
-    },
-  );
+        expect(() => result, throwsA(isA<DatasourceError>()));
+      },
+    );
 
-  test(
-    "Should throw 'UnknowRepositoryError'",
-    () async {
-      when(() => datasource(any())).thenThrow(Exception());
+    test(
+      "Should throw 'UnknowRepositoryError'",
+      () async {
+        when(() => datasource(any())).thenThrow(Exception());
 
-      final result = repository(0);
+        final result = repository(0);
 
-      expect(() => result, throwsA(isA<UnknowRepositoryError>()));
-    },
-  );
+        expect(() => result, throwsA(isA<UnknowRepositoryError>()));
+      },
+    );
+  });
 }

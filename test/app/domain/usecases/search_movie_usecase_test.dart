@@ -22,35 +22,37 @@ void main() {
     usecase = SearchMovieUsecase(repository);
   });
 
-  test(
-    "Should return 'MovieEntity'",
-    () async {
-      when(() => repository(any()))
-          .thenAnswer((_) async => MovieModel.fromJson(theMartianJson));
+  group("SearchMovieUsecase |", () {
+    test(
+      "Should return 'MovieEntity'",
+      () async {
+        when(() => repository(any()))
+            .thenAnswer((_) async => MovieModel.fromJson(theMartianJson));
 
-      final result = await usecase(1);
+        final result = await usecase(1);
 
-      expect(result, isA<MovieEntity>());
-      expect(result.id == MOVIE_ID, true);
-    },
-  );
+        expect(result, isA<MovieEntity>());
+        expect(result.id == MOVIE_ID, true);
+      },
+    );
 
-  test(
-    "Should throw 'SearchMovieInvalidMovieId'",
-    () async {
-      final result = usecase(0);
-      expect(() => result, throwsA(isA<SearchMovieInvalidMovieId>()));
-    },
-  );
+    test(
+      "Should throw 'SearchMovieInvalidMovieId'",
+      () async {
+        final result = usecase(0);
+        expect(() => result, throwsA(isA<SearchMovieInvalidMovieId>()));
+      },
+    );
 
-  test(
-    "Should throw 'SearchMovieInvalidResult'",
-    () async {
-      when(() => repository(any())).thenThrow(UnknowRepositoryError());
+    test(
+      "Should throw 'SearchMovieInvalidResult'",
+      () async {
+        when(() => repository(any())).thenThrow(UnknowRepositoryError());
 
-      final result = usecase(1);
+        final result = usecase(1);
 
-      expect(() => result, throwsA(isA<SearchMovieInvalidResult>()));
-    },
-  );
+        expect(() => result, throwsA(isA<SearchMovieInvalidResult>()));
+      },
+    );
+  });
 }
