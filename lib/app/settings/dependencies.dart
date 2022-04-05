@@ -4,10 +4,10 @@ import 'package:mobile2you/app/data/datasources/search_movie_datasource.dart';
 import 'package:mobile2you/app/data/datasources/search_movie_datasource_intreface.dart';
 import 'package:mobile2you/app/data/datasources/search_similar_movies_datasource.dart';
 import 'package:mobile2you/app/data/datasources/search_similar_movies_datasource_interface.dart';
-import 'package:mobile2you/app/data/sepositories/search_movie_repository.dart';
-import 'package:mobile2you/app/data/sepositories/search_movie_repository_interface.dart';
-import 'package:mobile2you/app/data/sepositories/search_similar_movies_repository.dart';
-import 'package:mobile2you/app/data/sepositories/search_similar_movies_repository_interface.dart';
+import 'package:mobile2you/app/data/repositories/search_movie_repository.dart';
+import 'package:mobile2you/app/data/repositories/search_movie_repository_interface.dart';
+import 'package:mobile2you/app/data/repositories/search_similar_movies_repository.dart';
+import 'package:mobile2you/app/data/repositories/search_similar_movies_repository_interface.dart';
 import 'package:mobile2you/app/domain/usecases/search_movie_usecase.dart';
 import 'package:mobile2you/app/domain/usecases/search_movie_usecase_interface.dart';
 import 'package:mobile2you/app/domain/usecases/search_similar_movies_usecase.dart';
@@ -23,13 +23,19 @@ abstract class AppDependencies {
     CloseApp.onBackPressed = DateTime.now();
 
     GetIt locator = GetIt.I;
-    locator.registerLazySingleton<ISearchMovieUsecase>(() => SearchMovieUsecase(locator()));
-    locator.registerLazySingleton<ISearchMovieRepository>(() => SearchMovieRepository(locator()));
-    locator.registerLazySingleton<ISearchMovieDatasource>(() => SearchMovieDatasource(locator()));
+    locator.registerLazySingleton<ISearchMovieUsecase>(
+        () => SearchMovieUsecase(locator()));
+    locator.registerLazySingleton<ISearchMovieRepository>(
+        () => SearchMovieRepository(locator()));
+    locator.registerLazySingleton<ISearchMovieDatasource>(
+        () => SearchMovieDatasource(locator()));
 
-    locator.registerLazySingleton<ISearchSimilarMoviesUsecase>(() => SearchSimilarMoviesUsecase(locator()));
-    locator.registerLazySingleton<ISearchSimilarMoviesRepository>(() => SearchSimilarMoviesRepository(locator()));
-    locator.registerLazySingleton<ISearchSimilarMoviesDatasource>(() => SearchSimilarMoviesDatasource(locator()));
+    locator.registerLazySingleton<ISearchSimilarMoviesUsecase>(
+        () => SearchSimilarMoviesUsecase(locator()));
+    locator.registerLazySingleton<ISearchSimilarMoviesRepository>(
+        () => SearchSimilarMoviesRepository(locator()));
+    locator.registerLazySingleton<ISearchSimilarMoviesDatasource>(
+        () => SearchSimilarMoviesDatasource(locator()));
 
     locator.registerLazySingleton<IHttpClient>(() => DioAdapter(locator()));
     locator.registerLazySingleton<Dio>(() => Dio());

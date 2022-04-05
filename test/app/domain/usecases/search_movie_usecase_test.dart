@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mobile2you/app/data/models/movie_model.dart';
-import 'package:mobile2you/app/data/sepositories/search_movie_repository_interface.dart';
+import 'package:mobile2you/app/data/repositories/search_movie_repository_interface.dart';
 import 'package:mobile2you/app/domain/entities/movie_entity.dart';
 import 'package:mobile2you/app/domain/errors/repository_errors.dart';
 import 'package:mobile2you/app/domain/errors/search_movie_error.dart';

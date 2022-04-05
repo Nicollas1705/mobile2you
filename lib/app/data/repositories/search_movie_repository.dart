@@ -1,6 +1,6 @@
 import 'package:mobile2you/app/data/datasources/search_movie_datasource_intreface.dart';
 import 'package:mobile2you/app/data/models/movie_model.dart';
-import 'package:mobile2you/app/data/sepositories/search_movie_repository_interface.dart';
+import 'package:mobile2you/app/data/repositories/search_movie_repository_interface.dart';
 import 'package:mobile2you/app/domain/errors/datasource_errors.dart';
 import 'package:mobile2you/app/domain/errors/repository_errors.dart';
 
