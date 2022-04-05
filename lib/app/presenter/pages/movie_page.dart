@@ -1,66 +1,84 @@
 import 'package:flutter/material.dart';
-import 'package:mobile2you/app/domain/entities/movie_entity.dart';
+import 'package:get_it/get_it.dart';
+import 'package:mobile2you/app/domain/entities/movie_request_result_entity.dart';
+import 'package:mobile2you/app/domain/usecases/search_movie_usecase_interface.dart';
+import 'package:mobile2you/app/domain/usecases/search_similar_movies_usecase_interface.dart';
 import 'package:mobile2you/app/presenter/components/movie_cover.dart';
 import 'package:mobile2you/app/presenter/components/movie_list_tile.dart';
+import 'package:mobile2you/app/presenter/controllers/movie_page_controller.dart';
 
 class MoviePage extends StatelessWidget {
-  const MoviePage({
+  MoviePage({
     Key? key,
     required this.movieId,
   }) : super(key: key);
   final int movieId;
 
+  final MoviePageController controller = MoviePageController(
+    searchMovieUsecase: GetIt.I.get<ISearchMovieUsecase>(),
+    searchSimilarMoviesUsecase: GetIt.I.get<ISearchSimilarMoviesUsecase>(),
+  );
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: CustomScrollView(
-        physics: const BouncingScrollPhysics(),
-        slivers: [
-          MovieCover(
-            movie: MovieEntity( // TODO
-              id: movieId,
-              title: "The Very Best Of Johnny Depp",
-              year: 0,
-              genres: [],
-              cover: "",
-              check: false,
-              popularity: 0.3,
-              likes: 12344,
+    return WillPopScope(
+      onWillPop: () async {
+        controller.doubleTapToExit(context);
+        return false;
+      },
+      child: Scaffold(
+        floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
+        floatingActionButton: Container(
+          padding: const EdgeInsets.only(top: 10),
+          width: 32,
+          child: FloatingActionButton(
+            backgroundColor: Colors.black,
+            child: const Icon(
+              Icons.arrow_back_ios_outlined,
+              color: Colors.white,
             ),
+            onPressed: () => controller.doubleTapToExit(context),
           ),
-          SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (context, index) {
-                return MovieListTile(
-                  movie: MovieEntity( // TODO
-                    id: 0,
-                    title: "Fight Club",
-                    year: 2022,
-                    genres: ["Horror", "Drama"],
-                    cover: "",
-                    check: true,
-                    popularity: 0,
-                    likes: 0,
+        ),
+        body: FutureBuilder(
+          future: controller.getAllMovies(movieId),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (snapshot.data == null) {
+              return const Center(
+                child: Text(
+                  "Error connection",
+                  style: TextStyle(
+                    fontSize: 32,
+                    fontWeight: FontWeight.bold,
                   ),
-                );
-              },
-              childCount: 15,
-            ),
-          ),
-          const SliverPadding(padding: EdgeInsets.only(bottom: 16))
-        ],
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
-      floatingActionButton: Container(
-        padding: const EdgeInsets.only(top: 10),
-        width: 32,
-        child: FloatingActionButton(
-          backgroundColor: Colors.black,
-          child: const Icon(
-            Icons.arrow_back_ios_outlined,
-            color: Colors.white,
-          ),
-          onPressed: () {}, // TODO: double back to exit
+                ),
+              );
+            } else {
+              final data = snapshot.data as MovieRequestResultEntity;
+              final mainMovie = data.mainMovie;
+              final similarMovies = data.similarMovies;
+
+              return CustomScrollView(
+                physics: const BouncingScrollPhysics(),
+                slivers: [
+                  MovieCover(movie: mainMovie),
+                  SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      (context, index) {
+                        return MovieListTile(
+                          movie: similarMovies[index],
+                        );
+                      },
+                      childCount: 15,
+                    ),
+                  ),
+                  const SliverPadding(padding: EdgeInsets.only(bottom: 16)),
+                ],
+              );
+            }
+          },
         ),
       ),
     );

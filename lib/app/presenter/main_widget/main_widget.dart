@@ -12,7 +12,7 @@ class MainWidget extends StatelessWidget {
     return MaterialApp(
       theme: DarkTheme.theme,
       themeMode: ThemeMode.dark,
-      home: const MoviePage(movieId: MOVIE_ID),
+      home: MoviePage(movieId: MOVIE_ID),
       debugShowCheckedModeBanner: false,
       scrollBehavior: AppScrollBehavior(),
     );
