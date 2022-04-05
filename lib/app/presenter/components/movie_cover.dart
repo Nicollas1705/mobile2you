@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobile2you/app/data/endpoints/themoviedb_endpoint.dart';
 import 'package:mobile2you/app/domain/entities/movie_entity.dart';
+import 'package:mobile2you/app/presenter/controllers/movie_cover_controller.dart';
 import 'package:mobile2you/shared/utils/like_count.dart';
 
 class MovieCover extends StatelessWidget {
-  const MovieCover({
+  MovieCover({
     Key? key,
     required this.movie,
   }) : super(key: key);
   final MovieEntity movie;
 
-  final bool liked = true; // TODO: UpdateState
+  final controller = MovieCoverController();
 
   @override
   Widget build(BuildContext context) {
@@ -44,11 +46,21 @@ class MovieCover extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(top: 8),
                     child: GestureDetector(
-                      child: Icon(
-                        liked ? Icons.favorite : Icons.favorite_border_outlined,
-                        size: 30,
+                      child: Stack(
+                        children: [
+                          Observer(
+                            builder: (_) {
+                              return AnimatedScale(
+                                scale: controller.liked ? 0 : 1,
+                                duration: const Duration(milliseconds: 300),
+                                child: const Icon(Icons.favorite, size: 30),
+                              );
+                            },
+                          ),
+                          const Icon(Icons.favorite_outline, size: 30),
+                        ],
                       ),
-                      onTap: () {}, // TODO: Update state
+                      onTap: controller.likeChanger,
                     ),
                   ),
                 ],
@@ -105,7 +117,7 @@ class MovieCover extends StatelessWidget {
     );
   }
 
-  // This icon can be filled according to the gradientFill() method
+  // ? This icon can be filled according to the gradientFill() method
   Widget popularityIcon() {
     const double size = 18;
     return Container(
