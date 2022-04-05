@@ -4,8 +4,6 @@ import 'package:flutter/services.dart';
 
 abstract class CloseApp {
   static void close() {
-    print(" ========================= CLOSE"); // TODO
-    return;
     try {
       SystemChannels.platform.invokeMethod('SystemNavigator.pop');
       SystemNavigator.pop();
