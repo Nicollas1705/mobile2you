@@ -3,7 +3,7 @@ import 'package:mobile2you/app/domain/entities/movie_entity.dart';
 import 'package:mobile2you/app/domain/errors/datasource_errors.dart';
 import 'package:mobile2you/app/domain/errors/repository_errors.dart';
 import 'package:mobile2you/app/domain/errors/search_movie_error.dart';
-import 'package:mobile2you/app/domain/usecases/search_movie_usecase_intreface.dart';
+import 'package:mobile2you/app/domain/usecases/search_movie_usecase_interface.dart';
 
 class SearchMovieUsecase implements ISearchMovieUsecase {
   final ISearchMovieRepository repository;

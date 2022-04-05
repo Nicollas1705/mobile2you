@@ -9,7 +9,7 @@ import 'package:mobile2you/app/data/sepositories/search_movie_repository_interfa
 import 'package:mobile2you/app/data/sepositories/search_similar_movies_repository.dart';
 import 'package:mobile2you/app/data/sepositories/search_similar_movies_repository_interface.dart';
 import 'package:mobile2you/app/domain/usecases/search_movie_usecase.dart';
-import 'package:mobile2you/app/domain/usecases/search_movie_usecase_intreface.dart';
+import 'package:mobile2you/app/domain/usecases/search_movie_usecase_interface.dart';
 import 'package:mobile2you/app/domain/usecases/search_similar_movies_usecase.dart';
 import 'package:mobile2you/app/domain/usecases/search_similar_movies_usecase_interface.dart';
 import 'package:mobile2you/app/presenter/main_widget/main_widget.dart';
