@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile2you/app/data/datasources/search_movie_datasource.dart';
-import 'package:mobile2you/app/data/datasources/search_movie_datasource_intreface.dart';
+import 'package:mobile2you/app/data/datasources/search_movie_datasource_interface.dart';
 import 'package:mobile2you/app/data/datasources/search_similar_movies_datasource.dart';
 import 'package:mobile2you/app/data/datasources/search_similar_movies_datasource_interface.dart';
 import 'package:mobile2you/app/data/repositories/search_movie_repository.dart';

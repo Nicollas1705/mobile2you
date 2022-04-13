@@ -23,78 +23,86 @@ class MovieCover extends StatelessWidget {
       shadowColor: Colors.amber,
       bottom: PreferredSize(
         preferredSize: const Size.fromHeight(66),
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: Text(
-                      movie.title,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 28,
-                      ),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                  const SizedBox(width: 5),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 8),
-                    child: GestureDetector(
-                      child: Stack(
-                        children: [
-                          Observer(
-                            builder: (_) {
-                              return AnimatedScale(
-                                scale: controller.liked ? 0 : 1,
-                                duration: const Duration(milliseconds: 300),
-                                child: const Icon(Icons.favorite, size: 30),
-                              );
-                            },
-                          ),
-                          const Icon(Icons.favorite_outline, size: 30),
-                        ],
-                      ),
-                      onTap: controller.likeChanger,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 8),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
+        child: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: gradientColors([0, .3, .6, .9, 1, 1]),
+            ),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Icon(Icons.favorite, size: 18),
-                    const SizedBox(width: 8),
-                    Text(LikeCount.getText(movie.likes)),
-                    const SizedBox(width: 32),
-                    popularityIcon(),
-                    const SizedBox(width: 8),
-                    Text(
-                      "${movie.popularity.toString().replaceFirst(".", ",")} of Popularity",
+                    Expanded(
+                      child: Text(
+                        movie.title,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 28,
+                        ),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    const SizedBox(width: 5),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8),
+                      child: GestureDetector(
+                        child: Stack(
+                          children: [
+                            Observer(
+                              builder: (_) {
+                                return AnimatedScale(
+                                  scale: controller.liked ? 0 : 1,
+                                  duration: const Duration(milliseconds: 300),
+                                  child: const Icon(Icons.favorite, size: 30),
+                                );
+                              },
+                            ),
+                            const Icon(Icons.favorite_outline, size: 30),
+                          ],
+                        ),
+                        onTap: controller.likeChanger,
+                      ),
                     ),
                   ],
                 ),
-              ),
-            ],
+                const SizedBox(height: 8),
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: [
+                      const Icon(Icons.favorite, size: 18),
+                      const SizedBox(width: 8),
+                      Text(LikeCount.getText(movie.likes)),
+                      const SizedBox(width: 32),
+                      popularityIcon(),
+                      const SizedBox(width: 8),
+                      Text(
+                        "${movie.popularity.toString().replaceFirst(".", ",")} of Popularity",
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
       flexibleSpace: FlexibleSpaceBar(
-        // collapseMode: CollapseMode.none,
         background: DecoratedBox(
           position: DecorationPosition.foreground,
           decoration: BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
-              colors: gradientColors(),
+              colors: gradientColors([.5, .3, .1, .05, 0, .05, .3, .6, 1, 1]),
             ),
           ),
           child: Image.network(
@@ -138,8 +146,7 @@ class MovieCover extends StatelessWidget {
     );
   }
 
-  List<Color> gradientColors() {
-    const List<double> opacities = [.5, .3, .1, .05, 0, .05, .3, .6, 1, 1];
+  List<Color> gradientColors(List<double> opacities) {
     List<Color> result = [];
     for (var element in opacities) {
       result.add(Colors.black.withOpacity(element));
@@ -147,6 +154,7 @@ class MovieCover extends StatelessWidget {
     return result;
   }
 
+  // ? Filled space inside the popularityIcon
   List<Color> gradientFill(double filledRatio) {
     const Color color = Colors.white;
     const int total = 10;

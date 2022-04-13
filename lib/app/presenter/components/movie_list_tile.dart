@@ -20,12 +20,13 @@ class MovieListTile extends StatelessWidget {
             cover(),
             const SizedBox(width: 16),
             content(),
-            movie.check
-                ? const Align(
-                    alignment: Alignment.topCenter,
-                    child: Icon(Icons.check_circle, size: 16),
-                  )
-                : const SizedBox(),
+            Visibility(
+              visible: movie.check,
+              child: const Align(
+                alignment: Alignment.topCenter,
+                child: Icon(Icons.check_circle, size: 16),
+              ),
+            ),
           ],
         ),
       ),
@@ -33,9 +34,9 @@ class MovieListTile extends StatelessWidget {
   }
 
   Widget cover() {
-    return SizedBox(
+    return Container(
       height: 100,
-      width: 60,
+      constraints: const BoxConstraints(minWidth: 65),
       child: Image.network(
         TheMovieDbEndpoint.urlImage + movie.cover,
         fit: BoxFit.cover,
